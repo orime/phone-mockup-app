@@ -1,0 +1,67 @@
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.phone-notch.iphone14 {
+  width: 40%;
+  height: 25px;
+}
+
+.phone-notch.iphone15 {
+  width: 30%;
+  height: 20px;
+  border-radius: 20px;
+  top: 10px;
+}
+
+.notch-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.notch-speaker {
+  width: 40px;
+  height: 4px;
+  background-color: #333;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+
+.notch-camera {
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border-radius: 50%;
+}
+
+.phone-android-camera {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.camera-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border-radius: 50%;
+} 

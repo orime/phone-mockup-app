@@ -1,0 +1,83 @@
+.control-panel {
+  width: 100%;
+  max-width: 350px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.control-section {
+  margin-bottom: 25px;
+}
+
+.control-section h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.file-input {
+  width: 100%;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.color-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: monospace;
+}
+
+.phone-model-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.model-button {
+  flex: 1;
+  min-width: 90px;
+  padding: 8px 12px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.model-button:hover {
+  background-color: #f0f0f0;
+}
+
+.model-button.active {
+  background-color: #0066cc;
+  color: white;
+  border-color: #0055aa;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.export-button {
+  flex: 1;
+  padding: 10px 15px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.export-button:hover {
+  background-color: #0055aa;
+} 

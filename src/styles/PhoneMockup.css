@@ -1,0 +1,81 @@
+.phone-mockup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 500px;
+  padding: 20px;
+  border-radius: 20px;
+  transition: background-color 0.5s ease;
+}
+
+.phone-frame {
+  position: relative;
+  width: 280px;
+  height: 560px;
+  background-color: #000;
+  border-radius: 36px;
+  padding: 10px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.placeholder-text {
+  color: #999;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* iPhone 14 样式 */
+.phone-frame.iphone14 {
+  border-radius: 44px;
+}
+
+.phone-frame.iphone14 .phone-screen {
+  border-radius: 36px;
+}
+
+/* iPhone 15 样式 */
+.phone-frame.iphone15 {
+  border-radius: 48px;
+}
+
+.phone-frame.iphone15 .phone-screen {
+  border-radius: 40px;
+}
+
+/* Android 样式 */
+.phone-frame.android {
+  border-radius: 30px;
+}
+
+.phone-frame.android .phone-screen {
+  border-radius: 24px;
+}
+
+/* 悬停效果 */
+.phone-frame:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+} 
