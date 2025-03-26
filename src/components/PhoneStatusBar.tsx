@@ -14,8 +14,8 @@ const PhoneStatusBar = ({
   initialSignal = 4
 }: PhoneStatusBarProps) => {
   const [time, setTime] = useState<string>('');
-  const [battery, setBattery] = useState<number>(initialBattery);
-  const [signal, setSignal] = useState<number>(initialSignal);
+  const [battery] = useState<number>(initialBattery);
+  const [signal] = useState<number>(initialSignal);
   
   // 设置当前时间
   useEffect(() => {

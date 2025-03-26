@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import PhoneNotch from './PhoneNotch';
 import PhoneStatusBar from './PhoneStatusBar';
 import '../styles/PhoneMockup.css';

@@ -89,18 +89,18 @@ const ControlPanel = ({
     }
   };
   
-  const handleGradientToggle = () => {
-    const newUseGradient = !useGradient;
-    setUseGradient(newUseGradient);
+  // const handleGradientToggle = () => {
+  //   const newUseGradient = !useGradient;
+  //   setUseGradient(newUseGradient);
     
-    if (newUseGradient) {
-      // 启用渐变时，应用默认渐变或之前的渐变设置
-      onBackgroundGradientChange(backgroundGradient || gradientPresets[0]);
-    } else {
-      // 禁用渐变时将渐变设置为undefined
-      onBackgroundGradientChange(undefined as any);
-    }
-  };
+  //   if (newUseGradient) {
+  //     // 启用渐变时，应用默认渐变或之前的渐变设置
+  //     onBackgroundGradientChange(backgroundGradient || gradientPresets[0]);
+  //   } else {
+  //     // 禁用渐变时将渐变设置为undefined
+  //     onBackgroundGradientChange(undefined as any);
+  //   }
+  // };
   
   const handleGradientAngleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newAngle = parseInt(e.target.value, 10) || 0;
