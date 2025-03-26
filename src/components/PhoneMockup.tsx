@@ -18,7 +18,15 @@ interface PhoneMockupProps {
   frameHeight?: number;
   containerWidth?: number;
   containerHeight?: number;
+  screenshotTopOffset?: number;
+  frameMargin?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
   children?: ReactNode;
+  mockupRef: any;
 }
 
 const PhoneMockup = ({ 
@@ -30,9 +38,11 @@ const PhoneMockup = ({
   frameHeight = 560,
   containerWidth,
   containerHeight = 500,
+  screenshotTopOffset = 0,
+  mockupRef,
+  frameMargin = { top: 20, right: 20, bottom: 20, left: 20 },
   children 
 }: PhoneMockupProps) => {
-  const mockupRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState<number>(100);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   
@@ -49,10 +59,11 @@ const PhoneMockup = ({
         minHeight: `${containerHeight}px`
       };
   
-  // 手机框样式
+  // 手机框样式，包含边距
   const phoneFrameStyle = {
     width: `${frameWidth}px`,
-    height: `${frameHeight}px`
+    height: `${frameHeight}px`,
+    margin: `${frameMargin.top}px ${frameMargin.right}px ${frameMargin.bottom}px ${frameMargin.left}px`
   };
   
   // 处理高度调整的拖拽事件
@@ -112,7 +123,10 @@ const PhoneMockup = ({
           {screenshot && (
             <div 
               className="screenshot-container" 
-              style={{ height: `${contentHeight}%` }}
+              style={{ 
+                height: `${contentHeight}%`,
+                marginTop: `${screenshotTopOffset}px`
+              }}
             >
               <img 
                 src={screenshot} 

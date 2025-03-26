@@ -5,6 +5,8 @@ import { saveAs } from 'file-saver';
 interface UseImageExportOptions {
   filename?: string;
   pixelRatio?: number;
+  containerWidth?: number;
+  containerHeight?: number;
 }
 
 // 修改泛型类型，使其适用于任何HTML元素
@@ -12,24 +14,39 @@ const useImageExport = <T extends HTMLElement>(
   elementRef: RefObject<T>,
   options: UseImageExportOptions = {}
 ) => {
-  const { filename = 'phone-mockup.png', pixelRatio = 2 } = options;
+  const { 
+    filename = 'phone-mockup.png', 
+    pixelRatio = 2,
+    containerWidth,
+    containerHeight
+  } = options;
 
   const exportToPng = async () => {
     if (!elementRef.current) return;
 
     try {
-      // 获取容器实际尺寸
-      const containerElement = elementRef.current;
-      const containerWidth = containerElement.clientWidth;
-      const containerHeight = containerElement.clientHeight;
+      // 使用设置的容器尺寸
+      const width = containerWidth || elementRef.current.clientWidth;
+      const height = containerHeight || elementRef.current.clientHeight;
       
-      const dataUrl = await toPng(containerElement, {
+      const dataUrl = await toPng(elementRef.current, {
         quality: 0.95,
         pixelRatio,
-        width: containerWidth,
-        height: containerHeight,
-        canvasWidth: containerWidth * pixelRatio,
-        canvasHeight: containerHeight * pixelRatio
+        width,
+        height,
+        canvasWidth: width * pixelRatio,
+        canvasHeight: height * pixelRatio,
+        style: {
+          width: `${width}px`,
+          height: `${height}px`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        },
+        filter: (node) => {
+          // 确保只导出预览容器内的内容
+          return !node.classList?.contains('control-panel');
+        }
       });
       
       saveAs(dataUrl, filename);
@@ -41,19 +58,35 @@ const useImageExport = <T extends HTMLElement>(
   const copyToClipboard = async () => {
     if (!elementRef.current) return;
 
+    console.log('copyToClipboard', elementRef.current);
+    console.log('elementRef', elementRef);
+
     try {
-      // 获取容器实际尺寸
-      const containerElement = elementRef.current;
-      const containerWidth = containerElement.clientWidth;
-      const containerHeight = containerElement.clientHeight;
+      // 使用设置的容器尺寸
+      const width = containerWidth || elementRef.current.clientWidth;
+      const height = containerHeight || elementRef.current.clientHeight;
+
+      console.log('width', width);
+      console.log('height', height);
       
-      const dataUrl = await toPng(containerElement, {
+      const dataUrl = await toPng(elementRef.current, {
         quality: 0.95,
         pixelRatio,
-        width: containerWidth,
-        height: containerHeight,
-        canvasWidth: containerWidth * pixelRatio,
-        canvasHeight: containerHeight * pixelRatio
+        width,
+        height,
+        canvasWidth: width * pixelRatio,
+        canvasHeight: height * pixelRatio,
+        style: {
+          width: `${width}px`,
+          height: `${height}px`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        },
+        filter: (node) => {
+          // 确保只导出预览容器内的内容
+          return !node.classList?.contains('control-panel');
+        }
       });
       
       const blob = await fetch(dataUrl).then(res => res.blob());

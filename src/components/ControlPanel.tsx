@@ -30,6 +30,8 @@ interface ControlPanelProps {
   onPhoneModelChange: (model: PhoneModel) => void;
   onFrameSizeChange: (width: number, height: number) => void;
   onContainerSizeChange: (width: number, height: number) => void;
+  onScreenshotTopOffsetChange: (offset: number) => void;
+  onFrameMarginChange: (margin: { top: number; right: number; bottom: number; left: number }) => void;
   onExport: () => void;
   onCopy: () => void;
   backgroundColor: string;
@@ -42,6 +44,13 @@ interface ControlPanelProps {
   frameHeight: number;
   containerWidth?: number;
   containerHeight: number;
+  screenshotTopOffset: number;
+  frameMargin: {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  };
   phoneModel: PhoneModel;
 }
 
@@ -52,6 +61,8 @@ const ControlPanel = ({
   onPhoneModelChange,
   onFrameSizeChange,
   onContainerSizeChange,
+  onScreenshotTopOffsetChange,
+  onFrameMarginChange,
   onExport,
   onCopy,
   backgroundColor,
@@ -60,6 +71,8 @@ const ControlPanel = ({
   frameHeight,
   containerWidth,
   containerHeight,
+  screenshotTopOffset,
+  frameMargin,
   phoneModel
 }: ControlPanelProps) => {
   const [useGradient, setUseGradient] = useState<boolean>(!!backgroundGradient);
@@ -129,6 +142,27 @@ const ControlPanel = ({
   const handleContainerHeightChange = (e: ChangeEvent<HTMLInputElement>) => {
     const height = parseInt(e.target.value, 10) || containerHeight;
     onContainerSizeChange(containerWidth || 0, height);
+  };
+  
+  const handleTopOffsetChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const offset = parseInt(e.target.value, 10) || 0;
+    onScreenshotTopOffsetChange(Math.max(0, offset));
+  };
+  
+  const handleMarginChange = (type: 'top-bottom' | 'left-right', value: number) => {
+    if (type === 'top-bottom') {
+      onFrameMarginChange({
+        ...frameMargin,
+        top: Math.max(0, value),
+        bottom: Math.max(0, value)
+      });
+    } else {
+      onFrameMarginChange({
+        ...frameMargin,
+        left: Math.max(0, value),
+        right: Math.max(0, value)
+      });
+    }
   };
   
   const applyColorPreset = (color: string) => {
@@ -431,6 +465,77 @@ const ControlPanel = ({
                       className="size-adjust-button"
                       onClick={() => onContainerSizeChange(containerWidth || 0, Math.min(1000, containerHeight + 20))}
                     >+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="size-control-group">
+              <h4>截图位置</h4>
+              <div className="size-inputs">
+                <div className="size-input-container">
+                  <label>顶部距离: {screenshotTopOffset}px</label>
+                  <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="100" 
+                      value={screenshotTopOffset} 
+                      onChange={handleTopOffsetChange}
+                      className="size-slider"
+                    />
+                  </div>
+                  <div className="size-input-number-controls">
+                    <button 
+                      className="size-adjust-button"
+                      onClick={() => onScreenshotTopOffsetChange(Math.max(0, screenshotTopOffset - 5))}
+                    >-</button>
+                    <input 
+                      type="number" 
+                      value={screenshotTopOffset} 
+                      onChange={handleTopOffsetChange}
+                      className="size-input"
+                      min="0"
+                      max="100"
+                    />
+                    <button 
+                      className="size-adjust-button"
+                      onClick={() => onScreenshotTopOffsetChange(Math.min(100, screenshotTopOffset + 5))}
+                    >+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="size-control-group">
+              <h4>外框边距</h4>
+              <div className="size-inputs">
+                
+                <div className="size-input-container">
+                  <label>上下边距: {frameMargin.bottom}px</label>
+                  <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="100" 
+                      value={frameMargin.bottom} 
+                      onChange={(e) => handleMarginChange('top-bottom', parseInt(e.target.value))}
+                      className="size-slider"
+                    />
+                  </div>
+                </div>
+                
+                <div className="size-input-container">
+                  <label>左右边距: {frameMargin.left}px</label>
+                  <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="100" 
+                      value={frameMargin.left} 
+                      onChange={(e) => handleMarginChange('left-right', parseInt(e.target.value))}
+                      className="size-slider"
+                    />
                   </div>
                 </div>
               </div>

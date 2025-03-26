@@ -13,15 +13,15 @@
 }
 
 .phone-notch.iphone14 {
-  width: 40%;
+  width: 33%;
   height: 25px;
 }
 
 .phone-notch.iphone15 {
   width: 30%;
-  height: 20px;
+  height: 17px;
   border-radius: 20px;
-  top: 7px;
+  top: 6px;
 }
 
 .notch-content {
