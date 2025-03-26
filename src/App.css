@@ -75,6 +75,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  top: 30px;
 }
 
 .app-footer {

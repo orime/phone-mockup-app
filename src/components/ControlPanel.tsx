@@ -5,22 +5,73 @@ import '../styles/ControlPanel.css';
 
 // 预设颜色方案
 const colorPresets = [
-  '#e9c7c0', // 粉色
-  '#c9daf8', // 浅蓝色
-  '#d7f8c9', // 淡绿色
-  '#f8e6c9', // 米色
-  '#e8c9f8', // 淡紫色
+  // 柔和系列
+  '#e9c7c0', // 柔和粉色
+  '#c9daf8', // 柔和蓝色
+  '#d7f8c9', // 柔和绿色
+  '#f8e6c9', // 温暖米色
+  '#e8c9f8', // 柔和紫色
   '#f3f3f3', // 浅灰色
+  
+  // 清新系列
+  '#a8e6cf', // 薄荷绿
+  '#dcedc1', // 嫩芽绿
+  '#ffd3b6', // 蜜桃橙
+  '#ffaaa5', // 珊瑚粉
+  '#ff8b94', // 草莓粉
+  
+  // 高级系列
+  '#d4e4bc', // 抹茶绿
+  '#f6c5af', // 珊瑚橙
+  '#b6c9f0', // 星空蓝
+  '#e2b6cf', // 藕荷粉
+  '#f2d5f8', // 梦幻紫
+  
+  // 温暖系列
+  '#ffe5d9', // 奶油色
+  '#ffd7ba', // 杏色
+  '#fec89a', // 蜜糖色
+  '#fec5bb', // 蜜桃色
+  '#fcd5ce', // 珊瑚色
+  
+  // 冷色系列
+  '#bde0fe', // 天空蓝
+  '#a2d2ff', // 海洋蓝
+  '#caf0f8', // 冰川蓝
+  '#b8f2e6', // 薄荷绿
+  '#aed9e0', // 湖水蓝
 ];
 
 // 预设渐变方案
 const gradientPresets = [
+  // 温柔渐变
   { color1: '#e9c7c0', color2: '#c3a1e1', angle: 135 }, // 粉紫渐变
   { color1: '#a1c4fd', color2: '#c2e9fb', angle: 120 }, // 蓝色渐变
   { color1: '#d4fc79', color2: '#96e6a1', angle: 90 },  // 绿色渐变
   { color1: '#fff1eb', color2: '#ace0f9', angle: 180 }, // 白蓝渐变
   { color1: '#fad0c4', color2: '#ffd1ff', angle: 105 }, // 粉色渐变
   { color1: '#ffecd2', color2: '#fcb69f', angle: 60 },  // 橙色渐变
+  
+  // 梦幻渐变
+  { color1: '#a8edea', color2: '#fed6e3', angle: 45 },  // 薄荷粉
+  { color1: '#d299c2', color2: '#fef9d7', angle: 135 }, // 紫金
+  { color1: '#f5efef', color2: '#feada6', angle: 180 }, // 奶油橙
+  { color1: '#a1c4fd', color2: '#c2e9fb', angle: 160 }, // 天空蓝
+  { color1: '#f6d5f7', color2: '#fbe9d7', angle: 90 },  // 梦幻粉
+  
+  // 高级渐变
+  { color1: '#e6dee9', color2: '#bdc2e8', angle: 150 }, // 高级紫
+  { color1: '#e3fdf5', color2: '#ffe6fa', angle: 120 }, // 薄荷粉
+  { color1: '#fff1eb', color2: '#ace0f9', angle: 45 },  // 奶油蓝
+  { color1: '#ffe5d9', color2: '#ffd7ba', angle: 70 },  // 温暖橙
+  { color1: '#dbdcd7', color2: '#dddcd7', angle: 30 },  // 高级灰
+  
+  // 自然渐变
+  { color1: '#96fbc4', color2: '#f9f586', angle: 135 }, // 春日青
+  { color1: '#fbc2eb', color2: '#a6c1ee', angle: 180 }, // 晚霞紫
+  { color1: '#a8edea', color2: '#fed6e3', angle: 90 },  // 海洋粉
+  { color1: '#d4fc79', color2: '#96e6a1', angle: 60 },  // 青草绿
+  { color1: '#84fab0', color2: '#8fd3f4', angle: 120 }, // 清晨蓝
 ];
 
 interface ControlPanelProps {
@@ -216,15 +267,85 @@ const ControlPanel = ({
             {/* 预设颜色 */}
             <div className="color-presets">
               <h4>预设颜色</h4>
-              <div className="preset-colors">
-                {colorPresets.map((color, index) => (
-                  <div 
-                    key={index}
-                    className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => applyColorPreset(color)}
-                  />
-                ))}
+              
+              {/* 柔和系列 */}
+              <div className="color-presets-group">
+                <div className="color-category">柔和系列</div>
+                <div className="preset-colors">
+                  {colorPresets.slice(0, 6).map((color, index) => (
+                    <div 
+                      key={index}
+                      className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => applyColorPreset(color)}
+                      title={color}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 清新系列 */}
+              <div className="color-presets-group">
+                <div className="color-category">清新系列</div>
+                <div className="preset-colors">
+                  {colorPresets.slice(6, 11).map((color, index) => (
+                    <div 
+                      key={index + 6}
+                      className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => applyColorPreset(color)}
+                      title={color}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 高级系列 */}
+              <div className="color-presets-group">
+                <div className="color-category">高级系列</div>
+                <div className="preset-colors">
+                  {colorPresets.slice(11, 16).map((color, index) => (
+                    <div 
+                      key={index + 11}
+                      className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => applyColorPreset(color)}
+                      title={color}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 温暖系列 */}
+              <div className="color-presets-group">
+                <div className="color-category">温暖系列</div>
+                <div className="preset-colors">
+                  {colorPresets.slice(16, 21).map((color, index) => (
+                    <div 
+                      key={index + 16}
+                      className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => applyColorPreset(color)}
+                      title={color}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 冷色系列 */}
+              <div className="color-presets-group">
+                <div className="color-category">冷色系列</div>
+                <div className="preset-colors">
+                  {colorPresets.slice(21).map((color, index) => (
+                    <div 
+                      key={index + 21}
+                      className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => applyColorPreset(color)}
+                      title={color}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
             
@@ -245,17 +366,77 @@ const ControlPanel = ({
             {/* 预设渐变 */}
             <div className="preset-gradients">
               <h4>预设渐变</h4>
-              <div className="preset-gradients-container">
-                {gradientPresets.map((preset, index) => (
-                  <div 
-                    key={index}
-                    className="preset-gradient"
-                    style={{ 
-                      background: `linear-gradient(${preset.angle}deg, ${preset.color1}, ${preset.color2})` 
-                    }}
-                    onClick={() => applyGradientPreset(preset)}
-                  />
-                ))}
+              
+              {/* 温柔渐变 */}
+              <div className="color-presets-group">
+                <div className="color-category">温柔渐变</div>
+                <div className="preset-gradients-container">
+                  {gradientPresets.slice(0, 6).map((preset, index) => (
+                    <div 
+                      key={index}
+                      className="preset-gradient"
+                      style={{ 
+                        background: `linear-gradient(${preset.angle}deg, ${preset.color1}, ${preset.color2})` 
+                      }}
+                      onClick={() => applyGradientPreset(preset)}
+                      title={`从 ${preset.color1} 到 ${preset.color2}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 梦幻渐变 */}
+              <div className="color-presets-group">
+                <div className="color-category">梦幻渐变</div>
+                <div className="preset-gradients-container">
+                  {gradientPresets.slice(6, 11).map((preset, index) => (
+                    <div 
+                      key={index + 6}
+                      className="preset-gradient"
+                      style={{ 
+                        background: `linear-gradient(${preset.angle}deg, ${preset.color1}, ${preset.color2})` 
+                      }}
+                      onClick={() => applyGradientPreset(preset)}
+                      title={`从 ${preset.color1} 到 ${preset.color2}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 高级渐变 */}
+              <div className="color-presets-group">
+                <div className="color-category">高级渐变</div>
+                <div className="preset-gradients-container">
+                  {gradientPresets.slice(11, 16).map((preset, index) => (
+                    <div 
+                      key={index + 11}
+                      className="preset-gradient"
+                      style={{ 
+                        background: `linear-gradient(${preset.angle}deg, ${preset.color1}, ${preset.color2})` 
+                      }}
+                      onClick={() => applyGradientPreset(preset)}
+                      title={`从 ${preset.color1} 到 ${preset.color2}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* 自然渐变 */}
+              <div className="color-presets-group">
+                <div className="color-category">自然渐变</div>
+                <div className="preset-gradients-container">
+                  {gradientPresets.slice(16).map((preset, index) => (
+                    <div 
+                      key={index + 16}
+                      className="preset-gradient"
+                      style={{ 
+                        background: `linear-gradient(${preset.angle}deg, ${preset.color1}, ${preset.color2})` 
+                      }}
+                      onClick={() => applyGradientPreset(preset)}
+                      title={`从 ${preset.color1} 到 ${preset.color2}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
             
@@ -399,6 +580,43 @@ const ControlPanel = ({
                 </div>
               </div>
             </div>
+
+            <div className="size-control-group">
+              <h4>截图位置</h4>
+              <div className="size-inputs">
+                <div className="size-input-container">
+                  <label>顶部距离: {screenshotTopOffset}px</label>
+                  <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="100" 
+                      value={screenshotTopOffset} 
+                      onChange={handleTopOffsetChange}
+                      className="size-slider"
+                    />
+                  </div>
+                  <div className="size-input-number-controls">
+                    <button 
+                      className="size-adjust-button"
+                      onClick={() => onScreenshotTopOffsetChange(Math.max(0, screenshotTopOffset - 5))}
+                    >-</button>
+                    <input 
+                      type="number" 
+                      value={screenshotTopOffset} 
+                      onChange={handleTopOffsetChange}
+                      className="size-input"
+                      min="0"
+                      max="100"
+                    />
+                    <button 
+                      className="size-adjust-button"
+                      onClick={() => onScreenshotTopOffsetChange(Math.min(100, screenshotTopOffset + 5))}
+                    >+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             
             <div className="size-control-group">
               <h4>背景容器尺寸</h4>
@@ -464,43 +682,6 @@ const ControlPanel = ({
                     <button 
                       className="size-adjust-button"
                       onClick={() => onContainerSizeChange(containerWidth || 0, Math.min(1000, containerHeight + 20))}
-                    >+</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="size-control-group">
-              <h4>截图位置</h4>
-              <div className="size-inputs">
-                <div className="size-input-container">
-                  <label>顶部距离: {screenshotTopOffset}px</label>
-                  <div className="size-input-with-controls">
-                    <input 
-                      type="range" 
-                      min="0" 
-                      max="100" 
-                      value={screenshotTopOffset} 
-                      onChange={handleTopOffsetChange}
-                      className="size-slider"
-                    />
-                  </div>
-                  <div className="size-input-number-controls">
-                    <button 
-                      className="size-adjust-button"
-                      onClick={() => onScreenshotTopOffsetChange(Math.max(0, screenshotTopOffset - 5))}
-                    >-</button>
-                    <input 
-                      type="number" 
-                      value={screenshotTopOffset} 
-                      onChange={handleTopOffsetChange}
-                      className="size-input"
-                      min="0"
-                      max="100"
-                    />
-                    <button 
-                      className="size-adjust-button"
-                      onClick={() => onScreenshotTopOffsetChange(Math.min(100, screenshotTopOffset + 5))}
                     >+</button>
                   </div>
                 </div>

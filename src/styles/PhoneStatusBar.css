@@ -55,7 +55,7 @@
 /* iOS 信号图标 */
 .signal-icon.ios {
   height: calc(12px + 0.2vh);
-  margin-right: calc(6px + 0.3vw);
+  margin-right: calc(6px);
 }
 
 .signal-icon.ios .signal-bars {
