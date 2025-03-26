@@ -23,7 +23,8 @@ function App() {
   
   const mockupRef = useRef<HTMLDivElement>(null)
   const { exportToPng, copyToClipboard } = useImageExport<HTMLDivElement>(mockupRef as any, {
-    filename: `phone-mockup-${new Date().getTime()}.png`
+    filename: `phone-mockup-${new Date().getTime()}.png`,
+    pixelRatio: 3 // 设置更高的像素比，提高导出图片质量
   })
 
   const handleScreenshotUpload = (file: File) => {

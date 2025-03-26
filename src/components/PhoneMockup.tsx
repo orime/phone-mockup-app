@@ -107,7 +107,7 @@ const PhoneMockup = ({
         style={phoneFrameStyle}
       >
         <div className="phone-screen">
-          <PhoneStatusBar />
+          <PhoneStatusBar model={model} />
           
           {screenshot && (
             <div 

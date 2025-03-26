@@ -3,6 +3,26 @@ import { HexColorPicker } from 'react-colorful';
 import { PhoneModel } from './PhoneMockup';
 import '../styles/ControlPanel.css';
 
+// 预设颜色方案
+const colorPresets = [
+  '#e9c7c0', // 粉色
+  '#c9daf8', // 浅蓝色
+  '#d7f8c9', // 淡绿色
+  '#f8e6c9', // 米色
+  '#e8c9f8', // 淡紫色
+  '#f3f3f3', // 浅灰色
+];
+
+// 预设渐变方案
+const gradientPresets = [
+  { color1: '#e9c7c0', color2: '#c3a1e1', angle: 135 }, // 粉紫渐变
+  { color1: '#a1c4fd', color2: '#c2e9fb', angle: 120 }, // 蓝色渐变
+  { color1: '#d4fc79', color2: '#96e6a1', angle: 90 },  // 绿色渐变
+  { color1: '#fff1eb', color2: '#ace0f9', angle: 180 }, // 白蓝渐变
+  { color1: '#fad0c4', color2: '#ffd1ff', angle: 105 }, // 粉色渐变
+  { color1: '#ffecd2', color2: '#fcb69f', angle: 60 },  // 橙色渐变
+];
+
 interface ControlPanelProps {
   onScreenshotUpload: (file: File) => void;
   onBackgroundColorChange: (color: string) => void;
@@ -44,17 +64,10 @@ const ControlPanel = ({
 }: ControlPanelProps) => {
   const [useGradient, setUseGradient] = useState<boolean>(!!backgroundGradient);
   const [activeColorPicker, setActiveColorPicker] = useState<'solid' | 'gradient1' | 'gradient2' | null>(null);
-  const [showSizeControls, setShowSizeControls] = useState<boolean>(false);
-  
-  // 默认渐变颜色值
-  const defaultGradient = {
-    color1: '#e9c7c0',
-    color2: '#c3a1e1',
-    angle: 135
-  };
+  const [showSizeControls, setShowSizeControls] = useState<boolean>(true); // 默认展开
   
   // 当前渐变设置
-  const currentGradient = backgroundGradient || defaultGradient;
+  const currentGradient = backgroundGradient || gradientPresets[0];
   
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -69,7 +82,7 @@ const ControlPanel = ({
     
     if (newUseGradient) {
       // 启用渐变时，应用默认渐变或之前的渐变设置
-      onBackgroundGradientChange(backgroundGradient || defaultGradient);
+      onBackgroundGradientChange(backgroundGradient || gradientPresets[0]);
     } else {
       // 禁用渐变时将渐变设置为undefined
       onBackgroundGradientChange(undefined as any);
@@ -117,6 +130,14 @@ const ControlPanel = ({
     const height = parseInt(e.target.value, 10) || containerHeight;
     onContainerSizeChange(containerWidth || 0, height);
   };
+  
+  const applyColorPreset = (color: string) => {
+    onBackgroundColorChange(color);
+  };
+  
+  const applyGradientPreset = (preset: typeof gradientPresets[0]) => {
+    onBackgroundGradientChange(preset);
+  };
 
   return (
     <div className="control-panel">
@@ -157,6 +178,22 @@ const ControlPanel = ({
               onChange={(e) => onBackgroundColorChange(e.target.value)}
               className="color-input"
             />
+            
+            {/* 预设颜色 */}
+            <div className="color-presets">
+              <h4>预设颜色</h4>
+              <div className="preset-colors">
+                {colorPresets.map((color, index) => (
+                  <div 
+                    key={index}
+                    className={`preset-color ${backgroundColor === color ? 'active' : ''}`}
+                    style={{ backgroundColor: color }}
+                    onClick={() => applyColorPreset(color)}
+                  />
+                ))}
+              </div>
+            </div>
+            
             {activeColorPicker === 'solid' && (
               <div className="color-picker-popup">
                 <div className="color-picker-close" onClick={() => setActiveColorPicker(null)}>×</div>
@@ -170,6 +207,23 @@ const ControlPanel = ({
             <div className="gradient-preview" style={{ 
               background: `linear-gradient(${currentGradient.angle}deg, ${currentGradient.color1}, ${currentGradient.color2})`
             }}></div>
+            
+            {/* 预设渐变 */}
+            <div className="preset-gradients">
+              <h4>预设渐变</h4>
+              <div className="preset-gradients-container">
+                {gradientPresets.map((preset, index) => (
+                  <div 
+                    key={index}
+                    className="preset-gradient"
+                    style={{ 
+                      background: `linear-gradient(${preset.angle}deg, ${preset.color1}, ${preset.color2})` 
+                    }}
+                    onClick={() => applyGradientPreset(preset)}
+                  />
+                ))}
+              </div>
+            </div>
             
             <div className="gradient-colors">
               <div className="color-picker-container">
@@ -247,11 +301,21 @@ const ControlPanel = ({
               <h4>手机外框尺寸</h4>
               <div className="size-inputs">
                 <div className="size-input-container">
-                  <label>宽度</label>
+                  <label>宽度: {frameWidth}px</label>
                   <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="200" 
+                      max="500" 
+                      value={frameWidth} 
+                      onChange={handleFrameWidthChange}
+                      className="size-slider"
+                    />
+                  </div>
+                  <div className="size-input-number-controls">
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onFrameSizeChange(frameWidth - 10, frameHeight)}
+                      onClick={() => onFrameSizeChange(Math.max(200, frameWidth - 10), frameHeight)}
                     >-</button>
                     <input 
                       type="number" 
@@ -263,17 +327,27 @@ const ControlPanel = ({
                     />
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onFrameSizeChange(frameWidth + 10, frameHeight)}
+                      onClick={() => onFrameSizeChange(Math.min(500, frameWidth + 10), frameHeight)}
                     >+</button>
                   </div>
                 </div>
                 
                 <div className="size-input-container">
-                  <label>高度</label>
+                  <label>高度: {frameHeight}px</label>
                   <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="400" 
+                      max="900" 
+                      value={frameHeight} 
+                      onChange={handleFrameHeightChange}
+                      className="size-slider"
+                    />
+                  </div>
+                  <div className="size-input-number-controls">
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onFrameSizeChange(frameWidth, frameHeight - 20)}
+                      onClick={() => onFrameSizeChange(frameWidth, Math.max(400, frameHeight - 20))}
                     >-</button>
                     <input 
                       type="number" 
@@ -285,7 +359,7 @@ const ControlPanel = ({
                     />
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onFrameSizeChange(frameWidth, frameHeight + 20)}
+                      onClick={() => onFrameSizeChange(frameWidth, Math.min(900, frameHeight + 20))}
                     >+</button>
                   </div>
                 </div>
@@ -296,11 +370,21 @@ const ControlPanel = ({
               <h4>背景容器尺寸</h4>
               <div className="size-inputs">
                 <div className="size-input-container">
-                  <label>宽度</label>
+                  <label>宽度: {containerWidth || '自适应'}px</label>
                   <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="1200" 
+                      value={containerWidth || 0} 
+                      onChange={handleContainerWidthChange}
+                      className="size-slider"
+                    />
+                  </div>
+                  <div className="size-input-number-controls">
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onContainerSizeChange((containerWidth || 0) - 20, containerHeight)}
+                      onClick={() => onContainerSizeChange(Math.max(0, (containerWidth || 0) - 20), containerHeight)}
                     >-</button>
                     <input 
                       type="number" 
@@ -313,17 +397,27 @@ const ControlPanel = ({
                     />
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onContainerSizeChange((containerWidth || 0) + 20, containerHeight)}
+                      onClick={() => onContainerSizeChange(Math.min(1200, (containerWidth || 0) + 20), containerHeight)}
                     >+</button>
                   </div>
                 </div>
                 
                 <div className="size-input-container">
-                  <label>高度</label>
+                  <label>高度: {containerHeight}px</label>
                   <div className="size-input-with-controls">
+                    <input 
+                      type="range" 
+                      min="300" 
+                      max="1000" 
+                      value={containerHeight} 
+                      onChange={handleContainerHeightChange}
+                      className="size-slider"
+                    />
+                  </div>
+                  <div className="size-input-number-controls">
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onContainerSizeChange(containerWidth || 0, containerHeight - 20)}
+                      onClick={() => onContainerSizeChange(containerWidth || 0, Math.max(300, containerHeight - 20))}
                     >-</button>
                     <input 
                       type="number" 
@@ -335,7 +429,7 @@ const ControlPanel = ({
                     />
                     <button 
                       className="size-adjust-button"
-                      onClick={() => onContainerSizeChange(containerWidth || 0, containerHeight + 20)}
+                      onClick={() => onContainerSizeChange(containerWidth || 0, Math.min(1000, containerHeight + 20))}
                     >+</button>
                   </div>
                 </div>

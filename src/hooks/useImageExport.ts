@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 
 interface UseImageExportOptions {
   filename?: string;
+  pixelRatio?: number;
 }
 
 // 修改泛型类型，使其适用于任何HTML元素
@@ -11,15 +12,24 @@ const useImageExport = <T extends HTMLElement>(
   elementRef: RefObject<T>,
   options: UseImageExportOptions = {}
 ) => {
-  const { filename = 'phone-mockup.png' } = options;
+  const { filename = 'phone-mockup.png', pixelRatio = 2 } = options;
 
   const exportToPng = async () => {
     if (!elementRef.current) return;
 
     try {
-      const dataUrl = await toPng(elementRef.current, {
+      // 获取容器实际尺寸
+      const containerElement = elementRef.current;
+      const containerWidth = containerElement.clientWidth;
+      const containerHeight = containerElement.clientHeight;
+      
+      const dataUrl = await toPng(containerElement, {
         quality: 0.95,
-        pixelRatio: 2
+        pixelRatio,
+        width: containerWidth,
+        height: containerHeight,
+        canvasWidth: containerWidth * pixelRatio,
+        canvasHeight: containerHeight * pixelRatio
       });
       
       saveAs(dataUrl, filename);
@@ -32,9 +42,18 @@ const useImageExport = <T extends HTMLElement>(
     if (!elementRef.current) return;
 
     try {
-      const dataUrl = await toPng(elementRef.current, {
+      // 获取容器实际尺寸
+      const containerElement = elementRef.current;
+      const containerWidth = containerElement.clientWidth;
+      const containerHeight = containerElement.clientHeight;
+      
+      const dataUrl = await toPng(containerElement, {
         quality: 0.95,
-        pixelRatio: 2
+        pixelRatio,
+        width: containerWidth,
+        height: containerHeight,
+        canvasWidth: containerWidth * pixelRatio,
+        canvasHeight: containerHeight * pixelRatio
       });
       
       const blob = await fetch(dataUrl).then(res => res.blob());

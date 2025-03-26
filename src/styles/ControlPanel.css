@@ -114,6 +114,65 @@
   z-index: 1;
 }
 
+/* 预设颜色 */
+.color-presets {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.preset-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.preset-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.preset-color:hover {
+  transform: scale(1.1);
+}
+
+.preset-color.active {
+  border: 2px solid #0066cc;
+  box-shadow: 0 0 4px rgba(0, 102, 204, 0.5);
+}
+
+/* 预设渐变 */
+.preset-gradients {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.preset-gradients-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.preset-gradient {
+  width: 50px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.preset-gradient:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 /* 渐变控制 */
 .gradient-controls {
   width: 100%;
@@ -141,6 +200,30 @@
 .angle-slider {
   width: 100%;
   margin-top: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+}
+
+.angle-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0066cc;
+  cursor: pointer;
+}
+
+.angle-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0066cc;
+  cursor: pointer;
 }
 
 /* 尺寸控制 */
@@ -179,7 +262,7 @@
 .size-inputs {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .size-input-container {
@@ -188,12 +271,18 @@
 }
 
 .size-input-container label {
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-size: 13px;
   color: #666;
 }
 
 .size-input-with-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.size-input-number-controls {
   display: flex;
   align-items: center;
 }
@@ -222,6 +311,34 @@
 
 .size-adjust-button:hover {
   background-color: #e0e0e0;
+}
+
+.size-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+}
+
+.size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0066cc;
+  cursor: pointer;
+}
+
+.size-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0066cc;
+  cursor: pointer;
 }
 
 .phone-model-selector {
