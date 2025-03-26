@@ -4,13 +4,25 @@ import ControlPanel from './components/ControlPanel'
 import useImageExport from './hooks/useImageExport'
 import './App.css'
 
+// 渐变背景类型
+interface GradientBackground {
+  color1: string
+  color2: string
+  angle: number
+}
+
 function App() {
   const [screenshot, setScreenshot] = useState<string | null>(null)
   const [backgroundColor, setBackgroundColor] = useState('#e9c7c0')
+  const [backgroundGradient, setBackgroundGradient] = useState<GradientBackground | undefined>(undefined)
   const [phoneModel, setPhoneModel] = useState<PhoneModel>('iphone14')
+  const [frameWidth, setFrameWidth] = useState<number>(280)
+  const [frameHeight, setFrameHeight] = useState<number>(560)
+  const [containerWidth, setContainerWidth] = useState<number | undefined>(undefined)
+  const [containerHeight, setContainerHeight] = useState<number>(500)
   
   const mockupRef = useRef<HTMLDivElement>(null)
-  const { exportToPng, copyToClipboard } = useImageExport(mockupRef, {
+  const { exportToPng, copyToClipboard } = useImageExport<HTMLDivElement>(mockupRef as any, {
     filename: `phone-mockup-${new Date().getTime()}.png`
   })
 
@@ -23,6 +35,20 @@ function App() {
     }
     reader.readAsDataURL(file)
   }
+  
+  const handleBackgroundGradientChange = (gradient: GradientBackground | undefined) => {
+    setBackgroundGradient(gradient)
+  }
+  
+  const handleFrameSizeChange = (width: number, height: number) => {
+    setFrameWidth(width)
+    setFrameHeight(height)
+  }
+  
+  const handleContainerSizeChange = (width: number, height: number) => {
+    setContainerWidth(width === 0 ? undefined : width)
+    setContainerHeight(height)
+  }
 
   return (
     <div className="app-container">
@@ -34,16 +60,29 @@ function App() {
             model={phoneModel}
             screenshot={screenshot}
             backgroundColor={backgroundColor}
+            backgroundGradient={backgroundGradient}
+            frameWidth={frameWidth}
+            frameHeight={frameHeight}
+            containerWidth={containerWidth}
+            containerHeight={containerHeight}
           />
         </div>
         
         <ControlPanel
           onScreenshotUpload={handleScreenshotUpload}
           onBackgroundColorChange={setBackgroundColor}
+          onBackgroundGradientChange={handleBackgroundGradientChange}
           onPhoneModelChange={setPhoneModel}
+          onFrameSizeChange={handleFrameSizeChange}
+          onContainerSizeChange={handleContainerSizeChange}
           onExport={exportToPng}
           onCopy={copyToClipboard}
           backgroundColor={backgroundColor}
+          backgroundGradient={backgroundGradient}
+          frameWidth={frameWidth}
+          frameHeight={frameHeight}
+          containerWidth={containerWidth}
+          containerHeight={containerHeight}
           phoneModel={phoneModel}
         />
       </div>
